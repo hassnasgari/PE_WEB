@@ -1,0 +1,595 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{095B432D-D47F-4DCA-B404-1F7E71422E3F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PE</RootNamespace>
+    <AssemblyName>PE</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>PE.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AGP.ArianaService.ArianaClient">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\AGP.ArianaService.ArianaClient.dll</HintPath>
+    </Reference>
+    <Reference Include="AGP.ArianaService.ArianaCommon">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\AGP.ArianaService.ArianaCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="AGP.Tools.SerializationHandler">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\AGP.Tools.SerializationHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="AGP.Tools.WebSocketWrapper">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\AGP.Tools.WebSocketWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="BehComponents">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\BehComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar.Schedule">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\DevComponents.DotNetBar.Schedule.dll</HintPath>
+    </Reference>
+    <Reference Include="DevComponents.DotNetBar2">
+      <HintPath>..\..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\DevComponents.DotNetBar2.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v25.1.Core, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.CodeParser.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.Data.Desktop.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Drawing.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Images.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v25.1.Core, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v25.1.UI, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v25.1.UI, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraCharts.v25.1.Wizard, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGrid.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v25.1.Core, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v25.1.Core, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="DevExpress.XtraRichEdit.v25.1, Version=25.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      
+    </Reference>
+    <Reference Include="EPPlus, Version=6.0.8.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.6.0.8\lib\net35\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Interfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=a694d7f3b0907a61, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.Interfaces.6.0.0\lib\net452\EPPlus.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.System.Drawing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=2308d35469c9bac0, processorArchitecture=MSIL">
+      <HintPath>packages\EPPlus.System.Drawing.6.0.0\lib\net452\EPPlus.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\GMap.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms">
+      <HintPath>..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\GMap.NET.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="hm_farsicalendar, Version=1.0.2016.22010, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\PE\PE485(v11.93)\NPE1\NPE1\bin\Debug\hm_farsicalendar.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\15.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities">
+      <HintPath>..\..\PE\PE485(v11.93)\NPE1\NPE1\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\PE\PE485(v11.93) - Copy (2)\NPE1\NPE1\bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CLS\ClsConvertDateHassan.cs" />
+    <Compile Include="CLS\ClsDiff.cs" />
+    <Compile Include="CLS\clsExcel.cs" />
+    <Compile Include="CLS\ClsFile.cs" />
+    <Compile Include="CLS\ClsSql.cs" />
+    <Compile Include="CLS\ClsNet.cs" />
+    <Compile Include="CLS\clsString.cs" />
+    <Compile Include="CLS\clsWaveProcessor.cs" />
+    <Compile Include="CLS\Globals.cs" />
+    <Compile Include="CLS\ClsMySql.cs" />
+    <Compile Include="Forms\3M\frmSeEmReprotBeetweenTwoDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\3M\frmSeEmReprotBeetweenTwoDate.designer.cs">
+      <DependentUpon>frmSeEmReprotBeetweenTwoDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CC\frmCcAction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CC\frmCcAction.designer.cs">
+      <DependentUpon>frmCcAction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CC\frmLogCc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CC\frmLogCc.designer.cs">
+      <DependentUpon>frmLogCc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CC\frmPerformers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CC\frmPerformers.designer.cs">
+      <DependentUpon>frmPerformers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DIFF\frmMsg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DIFF\frmMsg.designer.cs">
+      <DependentUpon>frmMsg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtChgRepStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtChgRepStock.Designer.cs">
+      <DependentUpon>frmDtChgRepStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtCteateAttachment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtCteateAttachment.Designer.cs">
+      <DependentUpon>frmDtCteateAttachment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtStatictics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtStatictics.Designer.cs">
+      <DependentUpon>frmDtStatictics.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PE\frmVpnsAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PE\frmVpnsAdd.designer.cs">
+      <DependentUpon>frmVpnsAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmCompairAndUpdateDbSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmCompairAndUpdateDbSummary.designer.cs">
+      <DependentUpon>frmCompairAndUpdateDbSummary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbCheckChgRequest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbDeletedSite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbDeletedSite.designer.cs">
+      <DependentUpon>frmDbDeletedSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbExcleSheets.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbExcleSheets.designer.cs">
+      <DependentUpon>frmDbExcleSheets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbMaps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbMaps.designer.cs">
+      <DependentUpon>frmDbMaps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbNewSite.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbNewSite.designer.cs">
+      <DependentUpon>frmDbNewSite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DB\frmDbUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DIFF\frmPermission.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DIFF\frmSelectDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DIFF\frmSelectDate.designer.cs">
+      <DependentUpon>frmSelectDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtAttachFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtAttachFile.Designer.cs">
+      <DependentUpon>frmDtAttachFile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtChangeAnnounceForDownTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtChangeAnnounceForDownTime.designer.cs">
+      <DependentUpon>frmDtChangeAnnounceForDownTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtCreateSimilar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtCreateSimilar.designer.cs">
+      <DependentUpon>frmDtCreateSimilar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtFreezMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtFreezMessage.designer.cs">
+      <DependentUpon>frmDtFreezMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtLimitTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtLimitTime.designer.cs">
+      <DependentUpon>frmDtLimitTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtMultiChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtMultiChange.designer.cs">
+      <DependentUpon>frmDtMultiChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtRegDownTime.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtRegDownTime.designer.cs">
+      <DependentUpon>frmDtRegDownTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtSetTextAboveGrid.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtSetTextAboveGrid.designer.cs">
+      <DependentUpon>frmDtSetTextAboveGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtShowRepStock.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DT\frmDtShowRepStock.designer.cs">
+      <DependentUpon>frmDtShowRepStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PE\Logs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PE\Logs.designer.cs">
+      <DependentUpon>Logs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PE\Vpns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PE\Vpns.designer.cs">
+      <DependentUpon>Vpns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PEDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PEDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="PEDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PEDataSet1.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\3M\frmSeEmReprotBeetweenTwoDate.resx">
+      <DependentUpon>frmSeEmReprotBeetweenTwoDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CC\frmCcAction.resx">
+      <DependentUpon>frmCcAction.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CC\frmLogCc.resx">
+      <DependentUpon>frmLogCc.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CC\frmPerformers.resx">
+      <DependentUpon>frmPerformers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DIFF\frmMsg.resx">
+      <DependentUpon>frmMsg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtChgRepStock.resx">
+      <DependentUpon>frmDtChgRepStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtCteateAttachment.resx">
+      <DependentUpon>frmDtCteateAttachment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtStatictics.resx">
+      <DependentUpon>frmDtStatictics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PE\frmVpnsAdd.resx">
+      <DependentUpon>frmVpnsAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmCompairAndUpdateDbSummary.resx">
+      <DependentUpon>frmCompairAndUpdateDbSummary.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbCheckChgRequest.resx">
+      <DependentUpon>frmDbCheckChgRequest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbDeletedSite.resx">
+      <DependentUpon>frmDbDeletedSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbExcleSheets.resx">
+      <DependentUpon>frmDbExcleSheets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbMaps.resx">
+      <DependentUpon>frmDbMaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbNewSite.resx">
+      <DependentUpon>frmDbNewSite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DB\frmDbUpdate.resx">
+      <DependentUpon>frmDbUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DIFF\frmPermission.resx">
+      <DependentUpon>frmPermission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DIFF\frmSelectDate.resx">
+      <DependentUpon>frmSelectDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtAttachFile.resx">
+      <DependentUpon>frmDtAttachFile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtChangeAnnounceForDownTime.resx">
+      <DependentUpon>frmDtChangeAnnounceForDownTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtCreateSimilar.resx">
+      <DependentUpon>frmDtCreateSimilar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtFreezMessage.resx">
+      <DependentUpon>frmDtFreezMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtLimitTime.resx">
+      <DependentUpon>frmDtLimitTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtMultiChange.resx">
+      <DependentUpon>frmDtMultiChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtRegDownTime.resx">
+      <DependentUpon>frmDtRegDownTime.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtSetTextAboveGrid.resx">
+      <DependentUpon>frmDtSetTextAboveGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DT\frmDtShowRepStock.resx">
+      <DependentUpon>frmDtShowRepStock.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PE\Logs.resx">
+      <DependentUpon>Logs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PE\Vpns.resx">
+      <DependentUpon>Vpns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="PEDataSet.xsc">
+      <DependentUpon>PEDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PEDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PEDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="PEDataSet.xss">
+      <DependentUpon>PEDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PEDataSet1.xsc">
+      <DependentUpon>PEDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="PEDataSet1.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PEDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="PEDataSet1.xss">
+      <DependentUpon>PEDataSet1.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CLS\NewFolder2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel1">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>9</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ICO\Alecive-Flatwoken-Apps-Search-Log.ico" />
+    <Content Include="ICO\attachedFile.jpg" />
+    <Content Include="ICO\blue.png" />
+    <Content Include="ICO\Custom-Icon-Design-Mono-Business-2-Coffee.ico" />
+    <Content Include="ICO\del.jpg" />
+    <Content Include="ICO\delDtFromDb.png" />
+    <Content Include="ICO\delete.jpg" />
+    <Content Include="ICO\Edit.jpg" />
+    <Content Include="ICO\edit1.png" />
+    <Content Include="ICO\Everaldo-Crystal-Clear-App-edit.ico" />
+    <Content Include="ICO\Everaldo-Crystal-Clear-Mimetype-log.ico" />
+    <Content Include="ICO\gray.png" />
+    <Content Include="ICO\green.png" />
+    <Content Include="ICO\key.ico" />
+    <Content Include="ICO\log.ico" />
+    <Content Include="ICO\log1.ico" />
+    <Content Include="ICO\New_Request.gif" />
+    <Content Include="ICO\notification.ico" />
+    <Content Include="ICO\notification.jpg" />
+    <Content Include="ICO\notification.png" />
+    <Content Include="ICO\notification1.jpg" />
+    <Content Include="ICO\PE.ico" />
+    <Content Include="ICO\phonebook-icon.png" />
+    <Content Include="ICO\Phonebook.ico" />
+    <Content Include="ICO\Repeat.ico" />
+    <Content Include="ICO\Search.png" />
+    <Content Include="ICO\Uiconstock-Flat-File-Type-Log.ico" />
+    <Content Include="ICO\Visualpharm-Must-Have-Log-Out.ico" />
+    <Content Include="ICO\wait.gif" />
+    <Content Include="ICO\yellow.png" />
+    <Content Include="PE.ico" />
+    <None Include="Resources\delete.jpg" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <ItemGroup>
+    <Analyzer Include="C:\Program Files\DevExpress 25.1\Components\Offline Packages\devexpress.data\25.1.5\analyzers\dotnet\DevExpress.Generator.dll" Visible="false" Condition="Exists('C:\Program Files\DevExpress 25.1\Components\Offline Packages\devexpress.data\25.1.5\analyzers\dotnet\DevExpress.Generator.dll')" />
+  </ItemGroup>
+</Project>

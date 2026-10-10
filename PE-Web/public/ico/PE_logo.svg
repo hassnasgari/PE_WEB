@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <!-- Smooth drop shadow -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- Outer Orange Arc Border -->
+    <path d="M 45 45 A 76 76 0 1 1 45 155" fill="none" stroke="#e67e22" stroke-width="6" stroke-linecap="butt"/>
+
+    <!-- Black Horseshoe C-Ring -->
+    <path d="M 45 45 A 72 72 0 1 1 45 155 L 63 137 A 48 48 0 1 0 63 63 Z" fill="#000000"/>
+
+    <!-- Inner 8-Segment Color Wheel (Center 100,100 Radius 48) -->
+    <!-- Segment 1: Top-Right (0 to 45 deg) -->
+    <path d="M 100 100 L 148 100 A 48 48 0 0 0 133.94 66.06 Z" fill="#d81b60"/>
+    <!-- Segment 2: Right-Mid (45 to 90 deg) -->
+    <path d="M 100 100 L 133.94 66.06 A 48 48 0 0 0 100 52 Z" fill="#e67e22"/>
+    <!-- Segment 3: Top-Left (90 to 135 deg) -->
+    <path d="M 100 100 L 100 52 A 48 48 0 0 0 66.06 66.06 Z" fill="#8e24aa"/>
+    <!-- Segment 4: Mid-Left-Top (135 to 180 deg) -->
+    <path d="M 100 100 L 66.06 66.06 A 48 48 0 0 0 52 100 Z" fill="#4dd0e1"/>
+    <!-- Segment 5: Mid-Left-Bottom (180 to 225 deg) -->
+    <path d="M 100 100 L 52 100 A 48 48 0 0 0 66.06 133.94 Z" fill="#00acc1"/>
+    <!-- Segment 6: Bottom-Left (225 to 270 deg) -->
+    <path d="M 100 100 L 66.06 133.94 A 48 48 0 0 0 100 148 Z" fill="#81c784"/>
+    <!-- Segment 7: Bottom-Right (270 to 315 deg) -->
+    <path d="M 100 100 L 100 148 A 48 48 0 0 0 133.94 133.94 Z" fill="#cddc39"/>
+    <!-- Segment 8: Right-Bottom-Mid (315 to 360 deg) -->
+    <path d="M 100 100 L 133.94 133.94 A 48 48 0 0 0 148 100 Z" fill="#ffb300"/>
+  </g>
+</svg>

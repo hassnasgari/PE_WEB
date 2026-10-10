@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PE - سامانه بررسی عملکرد مخابرات اصفهان Ver 0009</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css?v=0009.40">
+  <link rel="icon" href="/ico/PE.ico" type="image/x-icon">
+</head>
+
+
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="/ico/PE.ico" alt="PE" class="login-logo-img" width="48" height="48">
+      <h1 class="login-title">سامانه PE</h1>
+      <p class="login-subtitle">سامانه بررسی عملکرد مخابرات استان اصفهان - Ver 0009</p>
+    </div>
+    <div class="login-form">
+      <div class="form-group">
+        <label for="loginUsername">نام کاربری</label>
+        <input type="text" id="loginUsername" placeholder="نام کاربری (Ctrl+I جهت ورود سریع)" autocomplete="username" dir="rtl">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">رمز عبور</label>
+        <input type="password" id="loginPassword" placeholder="رمز عبور" autocomplete="current-password" dir="rtl">
+      </div>
+      <div id="loginError" class="login-error" style="display:none"></div>
+      <button id="loginBtn" class="btn-login" onclick="doLogin()">
+        <span id="loginBtnText">ورود به سامانه</span>
+      </button>
+    </div>
+    <div id="dbStatus" class="db-status"></div>
+    <!-- Bottom Right Multi-Click Hotspot -->
+    <div id="loginHotspot" class="login-hotspot" onclick="handleHotspotClick()">
+      <span class="hotspot-dot"></span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" class="main-app" style="display:none">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-right">
+      <img src="/ico/PE.ico" width="24" height="24" alt="PE">
+      <span class="topbar-title">سامانه بررسی عملکرد مخابرات اصفهان</span>
+      <span id="verBadge" class="ver-badge">Ver 0009</span>
+    </div>
+    <div class="topbar-center">
+      <div id="freezeAlert" class="freeze-alert" style="display:none">
+        ⚠️ شبکه فریز است
+      </div>
+      <div id="topbarMsg" class="topbar-msg"></div>
+    </div>
+    <div class="topbar-left">
+      <div class="user-info">
+        <span class="user-icon">👤</span>
+        <span id="topbarUserName">کاربر</span>
+        <span id="topbarUserRole" class="role-badge" style="display:none"></span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">خروج از حساب کاربری</button>
+    </div>
+  </header>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <span id="statusDateTime">در حال دریافت زمان...</span>
+    <span class="statusbar-sep">|</span>
+    <span id="statusRecord">تعداد رکوردها: 0</span>
+    <span class="statusbar-sep">|</span>
+    <span id="statusNetwork" class="net-status">🔗 * Net is MCI *</span>
+  </div>
+
+  <!-- MAIN NAVIGATION TABS -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="DT" onclick="switchTab('DT', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <!-- Clock circle -->
+        <circle cx="12" cy="11" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+        <!-- Clock hands -->
+        <path d="M12 7v4l2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Down arrow -->
+        <path d="M12 20v3M10 21.5l2 2 2-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg> DT (دان تایم)
+    </button>
+    <button class="tab-btn" data-tab="DB" onclick="switchTab('DB', this)">
+      <img src="/ico/database.ico" width="16" height="16" alt="DB"> DB (دیتابیس)
+    </button>
+    <button class="tab-btn" data-tab="PB" onclick="switchTab('PB', this)">
+      <img src="/ico/Phonebook.ico" width="16" height="16" alt="PB"> PB (دفترچه تلفن)
+    </button>
+    <button class="tab-btn" data-tab="Req" onclick="switchTab('Req', this)">
+      <img src="/ico/notification.png" width="16" height="16" alt="Req"> Req (درخواست‌ها)
+      <span id="reqBadge" class="req-count-badge" style="display:none">0</span>
+    </button>
+    <button class="tab-btn" data-tab="PE" onclick="switchTab('PE', this)" id="tabPE" style="display:none">
+      <img src="/ico/log.ico" width="16" height="16" alt="PE"> PE (مدیریت سیستم)
+    </button>
+  </nav>
+
+  <!-- TAB CONTENTS -->
+  <div class="tab-content-area">
+
+    <!-- DT TAB -->
+    <div id="tab-DT" class="tab-content active">
+      <!-- MENUSTRIP DT PUBLIC -->
+      <div class="menu-strip">
+        <button class="menu-btn" onclick="openDtRegModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align:middle; margin-left:3px;"><path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM16 18H8V16H16V18ZM16 14H8V12H16V14ZM13 9V3.5L18.5 9H13Z" fill="#00acc1"/></svg> درخواست دان تایم
+        </button>
+        <button class="menu-btn" onclick="copySelectedDt()">
+          <img src="/ico/copySubjects.png" width="16" height="16" alt="Copy"> کپی
+        </button>
+        <button class="menu-btn" onclick="editSelectedDt()">
+          <img src="/ico/edit1.png" width="16" height="16" alt="Edit"> ویرایش و حذف
+        </button>
+        
+        <div class="menu-dropdown">
+          <button class="menu-btn dropdown-toggle">
+            <img src="/ico/Search.png" width="16" height="16" alt="View"> قابل نمایش ▾
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" onclick="setPeriod('today', this); return false;" id="period-today">امروز</a>
+            <a href="#" onclick="setPeriod('week', this); return false;" id="period-week">هفته اخیر</a>
+            <a href="#" onclick="setPeriod('15days', this); return false;" class="active" id="period-15days">۱۵ روز اخیر</a>
+            <a href="#" onclick="setPeriod('month', this);" id="period-month">ماه اخیر</a>
+            <a href="#" onclick="setPeriod('twomonth', this);" id="period-twomonth">دو ماه اخیر</a>
+            <a href="#" onclick="setPeriod('all', this);" id="period-all">همه</a>
+          </div>
+        </div>
+
+        <div class="menu-dropdown">
+          <button class="menu-btn dropdown-toggle">
+            <img src="/ico/database1.png" width="16" height="16" alt="Filter"> فیلترها ▾
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" onclick="setDtFilter('none', this); return false;">حذف همه فیلترها</a>
+            <div class="dropdown-divider"></div>
+            <a href="#" onclick="setDtFilter('running', this); return false;">در حال اجرا</a>
+            <a href="#" onclick="setDtFilter('user_registered', this); return false;">ثبت توسط کاربر</a>
+            <a href="#" onclick="setDtFilter('session', this); return false;">منتظر ارائه در جلسه</a>
+            <a href="#" onclick="setDtFilter('sdm', this); return false;">ثبت در کلاریتی (SDM)</a>
+            <a href="#" onclick="setDtFilter('processing', this); return false;">در حال پردازش درخواست</a>
+            <a href="#" onclick="setDtFilter('repeated', this); return false;">تکراری</a>
+            <a href="#" onclick="setDtFilter('needcheck', this); return false;">نیاز به بررسی</a>
+            <a href="#" onclick="setDtFilter('finalcheck', this); return false;">بررسی نهایی</a>
+          </div>
+        </div>
+
+        <button class="menu-btn" onclick="exportDtToExcel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align:middle; margin-left:4px;"><path d="M14 2H6C4.89 2 4 2.89 4 4V20C4 21.11 4.89 22 6 22H18C19.11 22 20 21.11 20 20V8L14 2Z" fill="#107C41"/><path d="M13 3.5V9H18.5L13 3.5Z" fill="#a6e3b8"/><path d="M7.5 12L9.8 15.5L7.5 19H9.3L10.7 16.7L12.1 19H13.9L11.6 15.5L13.9 12H12.1L10.7 14.3L9.3 12H7.5Z" fill="#ffffff"/></svg> خروجی اکسل
+        </button>
+        <button class="menu-btn" onclick="openCreateSimilarDtModal()">
+          <img src="/ico/Repeat.ico" width="16" height="16" alt="Similar"> ایجاد مشابه
+        </button>
+      </div>
+
+      <!-- DT GROUP PANEL / ANNOUNCEMENT -->
+      <div id="dtGroupPanel" class="dt-group-panel" style="display:none"></div>
+
+      <!-- DB CHANGE ALERT - فقط در صفحه دان‌تایم -->
+      <div id="dbChangeAlert" class="db-change-alert" style="display:none;">
+        <img src="/ico/Not update.png" width="18" height="18" alt="Alert">
+        <span>اطلاعات جدید در دیتابیس ثبت شد. برای به‌روزرسانی روی آیکن کلیک کنید.</span>
+      </div>
+
+      <!-- DT SEARCH BAR & ACTION BAR -->
+      <div class="grid-search-bar">
+        <input type="text" id="dtSearchInput" placeholder="🔍 جستجوی عمومی در کدهای سایت، نام، درخواست کننده..." oninput="filterDtTableGlobal(this.value)">
+        <span id="statusUpdateIcon"
+              onclick="triggerGlobalRefresh()"
+              onmouseover="handleUpdateIconHover()"
+              title="جدول به‌روز است"
+              style="cursor:pointer; display:inline-flex; align-items:center; flex-shrink:0; padding:0; line-height:0;">
+          <img src="/ico/update.png" id="imgStatusUpdate" width="22" height="22" alt="Refresh" style="display:block; pointer-events:none;">
+        </span>
+      </div>
+
+      <!-- DT GRID WRAPPER -->
+      <div class="grid-wrapper" id="dtGridWrapper">
+        <div class="loading-spinner" id="dtLoading">
+          <div class="spinner"></div>
+          <p>در حال بارگذاری داده‌های دان‌تایم...</p>
+        </div>
+        <div class="table-scroll-container" id="dtTableContainer" style="display:none">
+          <table class="data-table" id="dtTable">
+            <thead id="dtTableHead"></thead>
+            <tbody id="dtTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DB TAB -->
+    <div id="tab-DB" class="tab-content" style="display:none">
+      <div class="menu-strip">
+        <button class="menu-btn" onclick="loadDB()">
+          <img src="/ico/update.png" width="16" height="16" alt="Refresh"> به روز رسانی دیتابیس جدید
+        </button>
+        <button class="menu-btn" onclick="exportDbToExcel()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align:middle; margin-left:4px;"><path d="M14 2H6C4.89 2 4 2.89 4 4V20C4 21.11 4.89 22 6 22H18C19.11 22 20 21.11 20 20V8L14 2Z" fill="#107C41"/><path d="M13 3.5V9H18.5L13 3.5Z" fill="#a6e3b8"/><path d="M7.5 12L9.8 15.5L7.5 19H9.3L10.7 16.7L12.1 19H13.9L11.6 15.5L13.9 12H12.1L10.7 14.3L9.3 12H7.5Z" fill="#ffffff"/></svg> خروجی اکسل
+        </button>
+      </div>
+
+      <div class="grid-search-bar">
+        <input type="text" id="dbSearchInput" placeholder="🔍 جستجو در شناسه، کد سایت، نام، BSC/RNC، پیمانکار، منطقه..." oninput="filterDbTableGlobal(this.value)">
+        <span id="dbRecordCount" class="record-count">0 رکورد</span>
+      </div>
+
+      <div class="grid-wrapper">
+        <div class="loading-spinner" id="dbLoading"><div class="spinner"></div><p>در حال بارگذاری دیتابیس سایت‌ها...</p></div>
+        <div class="table-scroll-container" id="dbTableContainer" style="display:none">
+          <table class="data-table db-frozen-table" id="dbTable">
+            <thead id="dbTableHead"></thead>
+            <tbody id="dbTableBody"></tbody>
+            <tfoot id="dbTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PB TAB -->
+    <div id="tab-PB" class="tab-content" style="display:none">
+      <div class="menu-strip">
+        <button class="menu-btn primary" onclick="showAddTelModal()">
+          <img src="/ico/phonebook-icon.png" width="16" height="16" alt="Add"> ثبت شماره جدید
+        </button>
+        <button class="menu-btn" onclick="loadTEL()">
+          <img src="/ico/update.png" width="16" height="16" alt="Refresh"> بروزرسانی
+        </button>
+      </div>
+
+      <div class="grid-search-bar">
+        <input type="text" id="telSearchInput" placeholder="🔍 نام یا شماره تلفن مورد جستجو را وارد کنید..." oninput="filterTelTableGlobal(this.value)">
+        <span id="telRecordCount" class="record-count">0 مخاطب</span>
+      </div>
+
+      <div class="grid-wrapper">
+        <div class="loading-spinner" id="telLoading"><div class="spinner"></div><p>در حال بارگذاری دفترچه تلفن...</p></div>
+        <div class="table-scroll-container" id="telTableContainer" style="display:none">
+          <table class="data-table" id="telTable">
+            <thead id="telTableHead"></thead>
+            <tbody id="telTableBody"></tbody>
+            <tfoot id="telTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- REQ TAB -->
+    <div id="tab-Req" class="tab-content" style="display:none">
+      <div class="menu-strip">
+        <button class="menu-btn" onclick="openCreateReqModal()">
+          <img src="/ico/notification.png" width="16" height="16" alt="New"> ثبت درخواست جدید
+        </button>
+        <button class="menu-btn" onclick="loadREQ()">
+          <img src="/ico/update.png" width="16" height="16" alt="Refresh"> بروزرسانی جدول
+        </button>
+      </div>
+
+      <div class="grid-search-bar">
+        <input type="text" id="reqSearchInput" placeholder="🔍 جستجو در درخواست‌های تغییرات..." oninput="filterReqTableGlobal(this.value)">
+        <span id="reqRecordCount" class="record-count">0 درخواست</span>
+      </div>
+
+      <div class="grid-wrapper">
+        <div class="loading-spinner" id="reqLoading"><div class="spinner"></div><p>در حال بارگذاری درخواست‌ها...</p></div>
+        <div class="table-scroll-container" id="reqTableContainer" style="display:none">
+          <table class="data-table" id="reqTable">
+            <thead id="reqTableHead"></thead>
+            <tbody id="reqTableBody"></tbody>
+            <tfoot id="reqTableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PE TAB -->
+    <div id="tab-PE" class="tab-content" style="display:none">
+      <div class="pe-tab-nav">
+        <button class="pe-sub-btn active" onclick="switchPeSub('clients', this)">👥 کلاینت‌های متصل</button>
+        <button class="pe-sub-btn" onclick="switchPeSub('logs', this)">📝 سوابق و لاگ‌ها</button>
+        <button class="pe-sub-btn" onclick="switchPeSub('vpns', this)">🔐 مدیریت VPNها</button>
+      </div>
+      <div id="pe-clients" class="pe-sub-content active">
+        <div class="grid-wrapper">
+          <div class="loading-spinner" id="peClientsLoading"><div class="spinner"></div></div>
+          <div class="table-scroll-container" id="peClientsContainer" style="display:none">
+            <table class="data-table" id="peClientsTable">
+              <thead id="peClientsHead"></thead>
+              <tbody id="peClientsBody"></tbody>
+              <tfoot id="peClientsFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="pe-logs" class="pe-sub-content">
+        <div class="grid-wrapper">
+          <div class="loading-spinner" id="peLogsLoading"><div class="spinner"></div></div>
+          <div class="table-scroll-container" id="peLogsContainer" style="display:none">
+            <table class="data-table" id="peLogsTable">
+              <thead id="peLogsHead"></thead>
+              <tbody id="peLogsBody"></tbody>
+              <tfoot id="peLogsFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div id="pe-vpns" class="pe-sub-content">
+        <div class="grid-wrapper">
+          <div class="loading-spinner" id="peVpnsLoading"><div class="spinner"></div></div>
+          <div class="table-scroll-container" id="peVpnsContainer" style="display:none">
+            <table class="data-table" id="peVpnsTable">
+              <thead id="peVpnsHead"></thead>
+              <tbody id="peVpnsBody"></tbody>
+              <tfoot id="peVpnsFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-content-area -->
+</div><!-- /mainApp -->
+
+<!-- DOWNTIME REGISTRATION MODAL -->
+<div id="dtRegModal" class="modal-overlay" style="display:none" onclick="closeDtRegModal(event)">
+  <div class="modal-box modal-xl dt-wizard-dialog" onclick="event.stopPropagation()">
+    <!-- MODAL HEADER -->
+    <div class="modal-header wizard-header">
+      <div class="modal-title-wrapper">
+        <h3 class="wizard-main-title"><span style="color: #f59e0b; font-weight: 900;">ثبت درخواست دان تایم</span></h3>
+      </div>
+      <button onclick="closeDtRegModal()" class="modal-close" title="بستن">✕</button>
+    </div>
+
+    <!-- WIZARD STEPPER BAR -->
+    <div class="wizard-stepper-bar">
+      <div class="step-item active" id="stepIndicator1" onclick="jumpToWizardStep(1)">
+        <span class="step-num">1</span>
+        <span class="step-label">1. Date</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator2" onclick="jumpToWizardStep(2)">
+        <span class="step-num">2</span>
+        <span class="step-label">2. Domain</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator3" onclick="jumpToWizardStep(3)">
+        <span class="step-num">3</span>
+        <span class="step-label">3. Site Code</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator4" onclick="jumpToWizardStep(4)">
+        <span class="step-num">4</span>
+        <span class="step-label">4. Category</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator5" onclick="jumpToWizardStep(5)">
+        <span class="step-num">5</span>
+        <span class="step-label">5. Details</span>
+      </div>
+      <div class="step-connector"></div>
+      <div class="step-item" id="stepIndicator6" onclick="jumpToWizardStep(6)">
+        <span class="step-num">6</span>
+        <span class="step-label">6. Attachment</span>
+      </div>
+    </div>
+    
+    <div class="modal-body dt-reg-body">
+      <!-- TOP ROW: STEP 1 (Date), STEP 2 (Domain), STEP 3 (Site Code) -->
+      <div class="wizard-cards-row">
+        <!-- 1. GRP DATES (STEP 1) -->
+        <div class="wizard-card grp-card" id="grpDates">
+          <div class="grp-card-header">
+            <span class="grp-icon">📅</span>
+            <span>1. Date</span>
+          </div>
+          <div class="grp-card-body">
+            <div class="form-row align-items-center gap-8">
+              <div class="date-field-group">
+                <label class="font-normal">تاریخ شروع</label>
+                <div class="shamsi-picker-row gap-6">
+                  <select id="dtRegStartYear" onchange="handleStartDateChange()"><option value="1403">1403</option><option value="1404">1404</option><option value="1405" selected>1405</option><option value="1406">1406</option></select> /
+                  <select id="dtRegStartMonth" onchange="handleStartDateChange()"><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05" selected>05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> /
+                  <select id="dtRegStartDay" onchange="handleStartDateChange()"></select>
+                </div>
+              </div>
+              <div class="date-field-group">
+                <label class="font-normal">تاریخ پایان</label>
+                <div class="shamsi-picker-row gap-6">
+                  <select id="dtRegEndYear" onchange="validateDateStep()"><option value="1403">1403</option><option value="1404">1404</option><option value="1405" selected>1405</option><option value="1406">1406</option></select> /
+                  <select id="dtRegEndMonth" onchange="validateDateStep()"><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05" selected>05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select> /
+                  <select id="dtRegEndDay" onchange="validateDateStep()"></select>
+                </div>
+              </div>
+              <button class="btn-step-next" id="btnNextDate" onclick="btnNextDate_Click()">ادامه ➔</button>
+            </div>
+            <div id="dateCorrectionAlert" class="step-alert-box" style="display:none;"></div>
+          </div>
+        </div>
+
+        <!-- 2. GRP DOMAIN (STEP 2) -->
+        <div class="wizard-card grp-card" id="grpDomain" onkeydown="if(event.key==='Enter'){ event.preventDefault(); btnNextDomain_Click(); }">
+          <div class="grp-card-header">
+            <span class="grp-icon">🌐</span>
+            <span>2. Domain</span>
+          </div>
+          <div class="grp-card-body">
+            <div class="domain-radios-wrapper">
+              <label class="radio-pill"><input type="radio" name="rdoDomain" value="SITE" onchange="rdoDomain_EditValueChanged(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); btnNextDomain_Click(); }"> SITE</label>
+              <label class="radio-pill"><input type="radio" name="rdoDomain" value="LRAN" onchange="rdoDomain_EditValueChanged(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); btnNextDomain_Click(); }"> LRAN</label>
+              <label class="radio-pill"><input type="radio" name="rdoDomain" value="HRAN" onchange="rdoDomain_EditValueChanged(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); btnNextDomain_Click(); }"> HRAN</label>
+              <label class="radio-pill"><input type="radio" name="rdoDomain" value="IPBB" onchange="rdoDomain_EditValueChanged(this.value)" onkeydown="if(event.key==='Enter'){ event.preventDefault(); btnNextDomain_Click(); }"> IPBB</label>
+            </div>
+            <button class="btn-step-next" id="btnNextDomain" disabled onclick="btnNextDomain_Click()">ادامه ➔</button>
+          </div>
+        </div>
+
+        <!-- 3. GRP SITE CODE (STEP 3) -->
+        <div class="wizard-card grp-card" id="grpSiteCode">
+          <div class="grp-card-header">
+            <span class="grp-icon">📡</span>
+            <span>3. Site Code</span>
+          </div>
+          <div class="grp-card-body">
+            <div class="site-code-row justify-content-center">
+              <div class="site-input-group">
+                <span class="lbl-es">ES</span>
+                <input type="text" id="txtSiteCode" maxlength="4" placeholder="1234" dir="ltr" style="text-align: center;"
+                       onkeypress="return isOnlyNumberKey(event)" 
+                       onkeydown="if(event.key==='Enter'){ event.preventDefault(); if(!document.getElementById('btnNextSite').disabled) btnNextSite_Click(); }"
+                       oninput="txtSiteCode_TextChanged(this.value)" 
+                       onfocus="this.select()">
+              </div>
+              <span id="lblSiteNameResult" class="site-name-badge">--------</span>
+              <button class="btn-step-next" id="btnNextSite" disabled onclick="btnNextSite_Click()">ادامه ➔</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW: STEP 4 (Category), STEP 5 (Details), STEP 6 (Attachment), ACTIONS -->
+      <div class="wizard-main-row mt-12">
+        <!-- 4. GRP CATEGORY (STEP 4) -->
+        <div class="wizard-card grp-card category-card" id="grpCategory">
+          <div class="grp-card-header">
+            <span class="grp-icon">📑</span>
+            <span>4. Category</span>
+          </div>
+          <div class="grp-card-body vertical-options">
+            <label class="check-pill">
+              <input type="radio" name="rdoCategory" id="rdoSiteAccess" value="SiteAccess" checked onchange="Category_CheckedChanged(this)"> 
+              <span>Site Access (Max: 4 hour)</span>
+            </label>
+            <label class="check-pill">
+              <input type="radio" name="rdoCategory" id="rdoSiteCleanup" value="SiteCleanup" onchange="Category_CheckedChanged(this)"> 
+              <span>Site Cleanup (Max: 6 hour)</span>
+            </label>
+            <label class="check-pill">
+              <input type="radio" name="rdoCategory" id="rdoOther" value="Other" onchange="Category_CheckedChanged(this)"> 
+              <span>سایر موارد</span>
+            </label>
+
+            <button class="btn-step-next mt-auto" id="btnNextCategory" onclick="btnNextCategory_Click()">ادامه ➔</button>
+          </div>
+        </div>
+
+        <!-- 5. GRP TIME & DETAILS (STEP 5) -->
+        <div class="wizard-card grp-card details-card" id="grpTimeAndDetails">
+          <div class="grp-card-header">
+            <span class="grp-icon">⏱️</span>
+            <span>5. Details</span>
+          </div>
+          <div class="grp-card-body">
+            <div class="details-form-layout" style="direction: rtl;">
+              <!-- ROW 1: TIME START & TIME END -->
+              <div class="details-row align-items-center gap-15">
+                <div class="detail-field-inline">
+                  <label class="font-normal">زمان شروع :</label>
+                  <div class="time-spinner-box">
+                    <input type="number" id="tmeStartHour" min="0" max="23" value="08" onchange="TimeEdit_Spin('start', 'hour')" onblur="TimeEdit_Validating('start')"> :
+                    <input type="number" id="tmeStartMin" min="0" max="59" step="15" value="00" onchange="TimeEdit_Spin('start', 'min')" onblur="TimeEdit_Validating('start')">
+                  </div>
+                </div>
+
+                <div class="detail-field-inline mr-20">
+                  <label class="font-normal">زمان پایان :</label>
+                  <div class="time-spinner-box">
+                    <input type="number" id="tmeEndHour" min="0" max="23" value="09" onchange="TimeEdit_Spin('end', 'hour')" onblur="TimeEdit_Validating('end')"> :
+                    <input type="number" id="tmeEndMin" min="0" max="59" step="15" value="00" onchange="TimeEdit_Spin('end', 'min')" onblur="TimeEdit_Validating('end')">
+                  </div>
+                </div>
+              </div>
+
+              <!-- ROW 2: OUTAGE -->
+              <div class="details-row align-items-center gap-10 mt-8">
+                <label class="font-normal" style="width: 75px; flex-shrink: 0;">Outage :</label>
+                <input type="text" id="txtOutage" class="readonly-field" readonly value="Outage = 0 (اجباری)" style="width: 220px; text-align: center;">
+              </div>
+
+              <!-- ROW 3: SUBJECT (SEARCHABLE DROPDOWN) -->
+              <div class="details-row align-items-center gap-10 mt-8">
+                <label class="font-normal" style="width: 75px; flex-shrink: 0;">موضوع :</label>
+                <div class="subject-search-wrapper" style="position: relative; flex: 1;">
+                  <input type="text" id="txtSubject" class="subject-input-search" placeholder="جستجو یا انتخاب موضوع..." dir="rtl" autocomplete="off"
+                         onfocus="openSubjectDropdown()" 
+                         onclick="openSubjectDropdown()" 
+                         oninput="filterSubjectDropdown(this.value)"
+                         onkeydown="handleSubjectKeydown(event)">
+                  <div id="txtSubjectDropdown" class="slue-dropdown" style="display:none;"></div>
+                </div>
+              </div>
+
+              <!-- ROW 4: PERFORMER -->
+              <div class="details-row align-items-center gap-10 mt-8">
+                <label class="font-normal" style="width: 75px; flex-shrink: 0;">انجام دهنده :</label>
+                <div class="slue-performer-wrapper" style="position: relative; flex: 1;">
+                  <input type="text" id="sluePerformer" placeholder="جستجو و انتخاب..." dir="rtl" autocomplete="off"
+                         onfocus="openPerformerDropdown()" 
+                         onclick="openPerformerDropdown()" 
+                         oninput="filterPerformerDropdown(this.value)"
+                         onkeydown="handlePerformerKeydown(event)">
+                  <div id="sluePerformerDropdown" class="slue-dropdown" style="display:none;"></div>
+                </div>
+              </div>
+
+              <!-- ROW 5: WORKPLACE (ROW 1) -->
+              <div class="details-row align-items-center gap-10 mt-6">
+                <span class="info-label font-compact" style="width: 70px; flex-shrink: 0;">محل کار :</span>
+                <span id="lblWorkPlaceResult" class="info-value purple font-compact">---</span>
+              </div>
+
+              <!-- ROW 6: MOBILE (ROW 2) -->
+              <div class="details-row align-items-center gap-10 mt-4">
+                <span class="info-label font-compact" style="width: 70px; flex-shrink: 0;">موبایل :</span>
+                <span id="lblPhoneResult" class="info-value green font-compact">---</span>
+              </div>
+            </div>
+            <button class="btn-step-next mt-auto" id="btnNextDetails" disabled onclick="btnNextDetails_Click()">ادامه ➔</button>
+          </div>
+        </div>
+
+        <!-- 6. GRP ATTACHMENT (STEP 6) -->
+        <div class="wizard-card grp-card attachment-card" id="grpAttachment">
+          <div class="grp-card-header">
+            <span class="grp-icon">📎</span>
+            <span>6. Attachment</span>
+          </div>
+          <div class="grp-card-body">
+            <div class="attachment-question-box">
+              <label class="attachment-ask-label">ضمیمه دارد:</label>
+              <div class="attachment-toggle-row mt-4">
+                <label class="radio-pill attachment-pill">
+                  <input type="radio" name="rdoHasAttachment" id="rdoAttachNo" value="no" checked onchange="toggleAttachmentBox(false)">
+                  <span>خیر</span>
+                </label>
+                <label class="radio-pill attachment-pill">
+                  <input type="radio" name="rdoHasAttachment" id="rdoAttachYes" value="yes" onchange="toggleAttachmentBox(true)">
+                  <span>بله</span>
+                </label>
+              </div>
+
+              <!-- FILE BROWSER CONTAINER (VISIBLE WHEN YES IS SELECTED) -->
+              <div id="attachmentFileBox" class="attachment-file-box mt-8" style="display: none;">
+                <input type="file" id="dtRegAttachmentInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip,.rar" style="display:none;" onchange="handleAttachmentSelected(this)">
+                <div class="file-drop-area" id="fileDropArea" onclick="document.getElementById('dtRegAttachmentInput').click()">
+                  <div class="file-drop-content">
+                    <span class="file-upload-icon">📁</span>
+                    <span class="file-upload-text">انتخاب فایل پیوست</span>
+                    <span class="file-upload-subtext">PDF, Word, Excel, عکس, ZIP (حداکثر 20MB)</span>
+                  </div>
+                </div>
+                <!-- SELECTED FILE PREVIEW -->
+                <div id="selectedFileInfo" class="selected-file-info mt-6" style="display: none;">
+                  <span class="file-icon-badge">📄</span>
+                  <div class="file-details">
+                    <span id="selectedFileName" class="selected-file-name">--</span>
+                    <span id="selectedFileSize" class="selected-file-size">--</span>
+                  </div>
+                  <button type="button" class="btn-remove-file" onclick="clearSelectedAttachment()" title="حذف فایل">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIONS CARD (Final Actions) -->
+        <div class="wizard-card grp-card actions-card" id="grpActions">
+          <div class="grp-card-header text-center">
+            <span class="grp-icon">⚙️</span>
+            <span>Final Actions</span>
+          </div>
+          <div class="grp-card-body actions-body">
+            <button type="button" id="btnReset" class="btn-action btn-action-reset" onclick="btnReset_Click()">
+              <span class="action-btn-icon">🔄</span><span>شروع مجدد / پاک کردن</span>
+            </button>
+            <button type="button" id="btnSubmit" class="btn-action btn-action-submit" disabled onclick="btnSubmit_Click()">
+              <span class="action-btn-icon">✅</span><span>ثبت نهایی درخواست</span>
+            </button>
+            <button type="button" id="btnClose" class="btn-action btn-action-close" onclick="closeDtRegModal()">
+              <span class="action-btn-icon">❌</span><span>بازگشت به صفحه قبل</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT SUBMISSIONS TABLE CARD -->
+      <div class="wizard-card grp-card recent-table-card mt-12">
+        <div class="grp-card-header">
+          <span class="grp-icon">📋</span>
+          <span>دان تایم های ثبت شده توسط کاربر شما</span>
+        </div>
+        <div class="grp-card-body p-0">
+          <div class="user-recent-table-wrapper">
+            <table class="recent-sub-table">
+              <thead>
+                <tr>
+                  <th>ردیف</th>
+                  <th>کد سایت</th>
+                  <th>نام سایت</th>
+                  <th>دامنه</th>
+                  <th>موضوع</th>
+                  <th>تاریخ شروع</th>
+                  <th>زمان شروع</th>
+                  <th>تاریخ پایان</th>
+                  <th>زمان پایان</th>
+                  <th>وضعیت</th>
+                </tr>
+              </thead>
+              <tbody id="userRecentDtBody">
+                <tr><td colspan="10" class="text-center py-2 text-muted">در حال بارگذاری سوابق...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TEL ADD MODAL -->
+<div id="addTelModal" class="modal-overlay" style="display:none" onclick="closeAddTelModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>افزودن شماره تلفن جدید</h3>
+      <button onclick="closeAddTelModal()" class="modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>نام و نام خانوادگی *</label><input type="text" id="addTelName"></div>
+      <div class="form-group"><label>شماره تلفن *</label><input type="text" id="addTelNum" dir="ltr"></div>
+      <div class="form-group"><label>محل کار</label><input type="text" id="addTelWp"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" onclick="saveTel()">ثبت شماره جدید</button>
+      <button class="btn-cancel" onclick="closeAddTelModal()">انصراف</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE REQUEST MODAL -->
+<div id="createReqModal" class="modal-overlay" style="display:none">
+  <div class="modal-container" style="max-width: 500px;">
+    <div class="modal-header">
+      <h3>ثبت درخواست جدید تغییرات</h3>
+      <button class="modal-close" onclick="closeCreateReqModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>درخواست‌کننده</label>
+        <input type="text" id="reqInputRequester" placeholder="نام و نام خانوادگی درخواست‌کننده">
+      </div>
+      <div class="form-group">
+        <label>شماره تماس</label>
+        <input type="text" id="reqInputTel" placeholder="شماره تماس" dir="ltr">
+      </div>
+      <div class="form-group">
+        <label>متن درخواست تغییرات *</label>
+        <textarea id="reqInputText" rows="4" style="width:100%; padding:8px; border-radius:4px; border:1px solid var(--border); background:var(--bg-main); color:var(--text-main); font-family:inherit;" placeholder="جزئیات و شرح کامل درخواست تغییرات را وارد کنید..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-save" onclick="submitNewReq()">ثبت و ارسال درخواست</button>
+      <button class="btn-cancel" onclick="closeCreateReqModal()">انصراف</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="/js/main.js?v=0010.30"></script>
+<script src="/js/dt.js?v=0010.30"></script>
+<script src="/js/db.js?v=0010.30"></script>
+<script src="/js/tel.js?v=0010.30"></script>
+<script src="/js/req.js?v=0010.30"></script>
+<script src="/js/pe.js?v=0010.30"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

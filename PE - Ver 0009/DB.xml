@@ -1,0 +1,96 @@
+﻿<XtraSerializer version="1.0" application="View">
+  <property name="#LayoutVersion" />
+  <property name="#LayoutScaleFactor">@1,Width=1@1,Height=1</property>
+  <property name="Appearance" isnull="true" iskey="true">
+    <property name="OddRow" iskey="true" value="OddRow">
+      <property name="Options" isnull="true" iskey="true">
+        <property name="UseBackColor">true</property>
+      </property>
+      <property name="BackColor">192, 255, 192</property>
+    </property>
+    <property name="EvenRow" iskey="true" value="EvenRow">
+      <property name="Options" isnull="true" iskey="true">
+        <property name="UseBackColor">true</property>
+      </property>
+      <property name="BackColor">White</property>
+    </property>
+    <property name="Row" iskey="true" value="Row">
+      <property name="Options" isnull="true" iskey="true">
+        <property name="UseTextOptions">true</property>
+      </property>
+      <property name="TextOptions" isnull="true" iskey="true">
+        <property name="HAlignment">Center</property>
+      </property>
+    </property>
+    <property name="FixedLine" iskey="true" value="FixedLine">
+      <property name="Options" isnull="true" iskey="true">
+        <property name="UseTextOptions">true</property>
+      </property>
+      <property name="TextOptions" isnull="true" iskey="true">
+        <property name="WordWrap">Wrap</property>
+      </property>
+    </property>
+    <property name="HeaderPanel" iskey="true" value="HeaderPanel">
+      <property name="Options" isnull="true" iskey="true">
+        <property name="UseTextOptions">true</property>
+      </property>
+      <property name="TextOptions" isnull="true" iskey="true">
+        <property name="WordWrap">Wrap</property>
+        <property name="HAlignment">Center</property>
+        <property name="VAlignment">Center</property>
+      </property>
+    </property>
+  </property>
+  <property name="OptionsBehavior" isnull="true" iskey="true">
+    <property name="Editable">false</property>
+  </property>
+  <property name="OptionsView" isnull="true" iskey="true">
+    <property name="ColumnAutoWidth">false</property>
+    <property name="ShowAutoFilterRow">true</property>
+    <property name="ShowFooter">true</property>
+    <property name="ShowGroupedColumns">true</property>
+    <property name="EnableAppearanceOddRow">true</property>
+    <property name="ShowFilterPanelMode">ShowAlways</property>
+  </property>
+  <property name="OptionsFind" isnull="true" iskey="true">
+    <property name="AlwaysVisible">true</property>
+  </property>
+  <property name="FixedLineWidth">2</property>
+  <property name="IndicatorWidth">-1</property>
+  <property name="ColumnPanelRowHeight">-1</property>
+  <property name="RowSeparatorHeight">0</property>
+  <property name="FooterPanelHeight">-1</property>
+  <property name="HorzScrollVisibility">Always</property>
+  <property name="VertScrollVisibility">Always</property>
+  <property name="RowHeight">-1</property>
+  <property name="GroupRowHeight">-1</property>
+  <property name="GroupFormat">{0}: [#image]{1} {2}</property>
+  <property name="ChildGridLevelName" />
+  <property name="VertScrollTipFieldName" />
+  <property name="PreviewFieldName" />
+  <property name="GroupPanelText" />
+  <property name="NewItemRowText" />
+  <property name="LevelIndent">-1</property>
+  <property name="PreviewIndent">-1</property>
+  <property name="PreviewLineCount">-1</property>
+  <property name="ScrollStyle">LiveVertScroll, LiveHorzScroll</property>
+  <property name="FocusRectStyle">CellFocus</property>
+  <property name="HorzScrollStep">0</property>
+  <property name="ActiveFilterEnabled">true</property>
+  <property name="ViewCaptionHeight">-1</property>
+  <property name="Columns" iskey="true" value="0" />
+  <property name="ViewCaption">دیتابیس جدید</property>
+  <property name="BorderStyle">Default</property>
+  <property name="SynchronizeClones">true</property>
+  <property name="DetailTabHeaderLocation">Top</property>
+  <property name="Name">gridViewDbNew</property>
+  <property name="DetailHeight">350</property>
+  <property name="Tag" isnull="true" />
+  <property name="GroupSummary" iskey="true" value="0" />
+  <property name="ActiveFilterString" />
+  <property name="FormatRules" iskey="true" value="0" />
+  <property name="FormatConditions" iskey="true" value="0" />
+  <property name="GroupSummarySortInfoState" />
+  <property name="FindFilterText" />
+  <property name="FindPanelVisible">false</property>
+</XtraSerializer>
